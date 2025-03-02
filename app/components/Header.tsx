@@ -5,10 +5,10 @@ import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const navigation = [
-  { name: 'Product', href: '#' },
-  { name: 'Features', href: '#' },
-  { name: 'Marketplace', href: '#' },
-  { name: 'Company', href: '#' },
+  { name: 'History', href: '#' },
+  { name: 'Team', href: '#' },
+  { name: 'Contact', href: '#' },
+  { name: 'About', href: '#' },
 ]
 
 export default function Header() {
@@ -21,8 +21,8 @@ export default function Header() {
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Landmark</span>
             <img
-              alt=""
-              src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+              alt="Landmark"
+              src="/logo.svg"
               className="h-8 w-auto"
             />
           </a>
@@ -55,10 +55,10 @@ export default function Header() {
         <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
+              <span className="sr-only">Landmark</span>
               <img
-                alt=""
-                src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+                alt="Landmark"
+                src="/logo.svg"
                 className="h-8 w-auto"
               />
             </a>
