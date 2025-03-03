@@ -17,7 +17,7 @@ export default function Header() {
   return (
     <header className="absolute inset-x-0 top-0 z-50">
       <div className="flex justify-center mx-8">
-        <nav className="mt-6 flex items-center rounded-full border border-[green] bg-white shadow-lg">
+        <nav className="mt-6 flex items-center rounded-full border border-[black] bg-white shadow-lg">
           <div className="flex items-center w-full justify-between">
             <div className="px-4">
               <a href="#" className="flex-shrink-0">

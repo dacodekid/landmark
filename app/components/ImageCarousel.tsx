@@ -6,7 +6,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import './swiper.css';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 type ImageCarouselProps = {
@@ -25,11 +24,11 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
   }
 
   const containerStyle = {
-    width: '99.1vw',
+    width: '99vw',
     height: '100vh',
     overflow: 'hidden',
-    overflowX: 'hidden',
-    position: 'relative',
+    overflowX: 'hidden' as const,
+    position: 'relative' as const,
   };
 
   const swiperStyle = {
@@ -39,12 +38,16 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
   };
 
   const imageStyle = {
-    width: '100%',
-    height: '100%',
+    width: '90%',
+    height: '90%',
     objectFit: 'cover',
-    position: 'absolute',
-    top: 0,
-    left: 0,
+    position: 'absolute' as const,
+    top: '5%',
+    left: '5%',
+    borderRadius: '20px',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
+    // backgroundColor: '#000000',
+    padding: '1px',
   };
 
   return (
