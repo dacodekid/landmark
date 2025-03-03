@@ -24,38 +24,58 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
     return null;
   }
 
+  const containerStyle = {
+    width: '99.1vw',
+    height: '100vh',
+    overflow: 'hidden',
+    overflowX: 'hidden',
+    position: 'relative',
+  };
+
+  const swiperStyle = {
+    width: '100%',
+    height: '100%',
+    overflow: 'hidden',
+  };
+
+  const imageStyle = {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  };
+
   return (
-    <Swiper
-      modules={[Navigation, Pagination, Autoplay]}
-      spaceBetween={30}
-      slidesPerView={1}
-      navigation
-      pagination={{ clickable: true }}
-      loop={true}
-      autoplay={{
-        delay: 5000,
-        disableOnInteraction: false,
-      }}
-      breakpoints={{
-        640: {
-          slidesPerView: 1,
-        },
-        1024: {
-          slidesPerView: 1,
-        },
-      }}
-    >
-      {images.map((image, index) => (
-        <SwiperSlide key={index}>
-          <Image
-            src={image}
-            alt={`Property image ${index + 1}`}
-            className="w-full h-auto object-cover"
-            width={1200}
-            height={800}
-          />
-        </SwiperSlide>
-      ))}
-    </Swiper>
+    <div style={containerStyle}>
+      <Swiper
+        style={swiperStyle}
+        modules={[Navigation, Pagination, Autoplay]}
+        spaceBetween={30}
+        slidesPerView={1}
+        navigation
+        pagination={{ clickable: true }}
+        loop={true}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
+        breakpoints={{
+          640: {
+            slidesPerView: 1,
+          },
+          1024: {
+            slidesPerView: 1,
+          },
+        }}
+      >
+        {images.map((image, index) => (
+          <SwiperSlide key={index}>
+            <img src={image} alt={`carousel-image-${index}`} style={imageStyle} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 }
