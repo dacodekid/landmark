@@ -19,6 +19,7 @@ type ImageCarouselProps = {
 
 export default function ImageCarousel({ slides }: ImageCarouselProps) {
   const [isMounted, setIsMounted] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     setIsMounted(true);
@@ -55,6 +56,15 @@ export default function ImageCarousel({ slides }: ImageCarouselProps) {
     padding: '1px',
   };
 
+  const borderStyle = {
+    position: 'absolute',
+    bottom: '0',
+    left: '0',
+    width: '0',
+    height: '4px',
+    backgroundColor: 'white',
+  };
+
   const headerStyle = {
     position: 'absolute' as const,
     bottom: '85px',
@@ -64,10 +74,26 @@ export default function ImageCarousel({ slides }: ImageCarouselProps) {
     fontSize: '24px',
     fontWeight: 'bold',
     textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+    overflow: 'hidden',
+  };
+
+  const styles = `
+    @keyframes growBorder {
+      0% { width: 0; }
+      100% { width: 100%; }
+    }
+    .border-animation {
+      animation: growBorder 3s ease-in-out forwards;
+    }
+  `;
+
+  const handleSlideChange = (swiper: any) => {
+    setActiveIndex(swiper.activeIndex);
   };
 
   return (
     <div style={containerStyle}>
+      <style>{styles}</style>
       <Swiper
         style={swiperStyle}
         modules={[Navigation, Pagination, Autoplay]}
@@ -88,12 +114,18 @@ export default function ImageCarousel({ slides }: ImageCarouselProps) {
             slidesPerView: 1,
           },
         }}
+        onSlideChange={handleSlideChange}
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
             <div>
               <img src={slide.image} alt={`carousel-image-${index}`} style={imageStyle} />
-              {slide.header && <div style={headerStyle}>{slide.header}</div>}
+              {slide.header && (
+                <div style={headerStyle}>
+                  {slide.header}
+                  <div key={activeIndex} className="border-animation" style={borderStyle}></div>
+                </div>
+              )}
             </div>
           </SwiperSlide>
         ))}
