@@ -8,11 +8,16 @@ import 'swiper/css/pagination';
 import './swiper.css';
 import { useEffect, useState } from 'react';
 
+interface Slide {
+  image: string;
+  header?: string;
+}
+
 type ImageCarouselProps = {
-  images: string[];
+  slides: Slide[];
 };
 
-export default function ImageCarousel({ images }: ImageCarouselProps) {
+export default function ImageCarousel({ slides }: ImageCarouselProps) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -40,7 +45,7 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
   const imageStyle = {
     width: '90%',
     height: '90%',
-    objectFit: 'cover',
+    objectFit: 'cover' as const,
     position: 'absolute' as const,
     top: '5%',
     left: '5%',
@@ -48,6 +53,17 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
     // backgroundColor: '#000000',
     padding: '1px',
+  };
+
+  const headerStyle = {
+    position: 'absolute' as const,
+    bottom: '85px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    color: 'white',
+    fontSize: '24px',
+    fontWeight: 'bold',
+    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
   };
 
   return (
@@ -73,9 +89,12 @@ export default function ImageCarousel({ images }: ImageCarouselProps) {
           },
         }}
       >
-        {images.map((image, index) => (
+        {slides.map((slide, index) => (
           <SwiperSlide key={index}>
-            <img src={image} alt={`carousel-image-${index}`} style={imageStyle} />
+            <div>
+              <img src={slide.image} alt={`carousel-image-${index}`} style={imageStyle} />
+              {slide.header && <div style={headerStyle}>{slide.header}</div>}
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>
