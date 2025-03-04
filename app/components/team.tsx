@@ -1,7 +1,6 @@
 'use client'
 
 import * as Headless from '@headlessui/react'
-import { ArrowLongRightIcon } from '@heroicons/react/20/solid'
 import { clsx } from 'clsx'
 import {
   MotionValue,
@@ -14,25 +13,39 @@ import {
 import { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import useMeasure, { type RectReadOnly } from 'react-use-measure'
 import { Container } from './container'
-import { Link } from './link'
 import { Heading } from './text'
 import Image from 'next/image'
+import { TeamMemberDetail } from './TeamMemberDetail'
 
-const teamMembers = [
+interface TeamMember {
+  name: string
+  role: string
+  img: string
+  picture: string
+  bio: string
+}
+
+const teamMembers: TeamMember[] = [
   {
     name: 'Philip D Aguirre',
     role: 'Architect',
     img: '/team/architect.jpg',
+    picture: '/team/architect.jpg',
+    bio: 'Born amidst the bustling creavity of New Jersey, Philip D Aguirre embarked on a journey that would see him become a luminary in the architectural world. His journey began in the sun-kissed state of Florida, where his talents started to shape the architectural landscape. An esteemed alumnus of the University of Miami, he brings over three decades of unparalleled experience to the fore. \n\n Specializing in both residential and commercial projects, his portfolio is a testament to versatility and excellence. From opulent single-family residences, sophisticated interior renovations, to imposing warehouses, professional offices, shopping plazas, and serene churches, each project is a canvas for his creative ingenuity. His crowning achievement includes designing the 25th largest home in the United States, a staggering 65,000 SF luxury residence. Predominantly shaping the landscapes of Broward & Miami Dade counties, his influence extends from the picturesque Florida Keys to West Palm Beach. His international acclaim is evident through his impactons in Ecuador and St. Martin, showcasing his global architectural prowess. \n\nPhilip\'s experience is not limited to residential spaces. He has left an indelible mark on restaurants, retail facilities, medical establishments, custom homes, clubhouses, and townhomes. His comprehensive approach ensures full-service project completion, from early-stage development, code research, and site analysis to structural design, plan presentation, and construction documentation. Notably, he has been the driving force behind the development of four residential communities, cumulatively comprising 283 homes, including Stone Brook Estates, Emerald Spring Development, Emerald Isles Development, and Stirling Palms. His urban projects like the Southwest Town Homes and Madison Lakes Town Homes further highlight his proficiency in creating community-centric living spaces. His commercial achievements are equally impressive, with projects like Rickell Say Plaza, Victoria Say Plaza, Royal University Plaza and Chip Tech Building under his belt, each showcasing a unique blend of functionality and aesthetics. \n\nPhilip D Aguirre of P A Architect Inc. is not just an architect; he is a connoisseur of spaces, a creator of dreams, and a visionary shaping the skyline of tomorrow.',
   },
   {
     name: 'Meivys Mendez Rodriguez',
     role: 'Designer',
     img: '/team/designer.jpg',
+    picture: '/team/designer.jpg',
+    bio: 'First paragraph.\n\nSecond paragraph.\n\nThird paragraph.',
   },
   {
     name: 'Oleed Abdulla',
     role: 'Builder',
     img: '/team/builder.jpg',
+    picture: '/team/builder.jpg',
+    bio: 'First paragraph.\n\nSecond paragraph.\n\nThird paragraph.',
   },
 ]
 
@@ -102,42 +115,28 @@ function TeamMemberCard({
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 rounded-3xl bg-linear-to-t from-black from-[calc(7/16*100%)] ring-1 ring-gray-950/10 ring-inset sm:from-25%"
+        className="absolute inset-0 rounded-3xl bg-gradient-to-t from-black from-[calc(7/16*100%)] ring-1 ring-inset sm:from-25%"
       />
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/50 to-transparent p-6 text-white">
+      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/50 via-black/25 to-transparent p-6 text-white">
         <p className="text-lg font-semibold">{name}</p>
         <p className="text-sm">{role}</p>
       </div>
+      <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/50 pointer-events-none" />
       {children}
     </motion.div>
   )
 }
 
-function CallToAction() {
-  return (
-    <div>
-      <p className="max-w-sm text-sm/6 text-gray-600">
-        Join the best sellers in the business and start using Radiant to hit
-        your targets today.
-      </p>
-      <div className="mt-2">
-        <Link
-          href="#"
-          className="inline-flex items-center gap-2 text-sm/6 font-medium text-pink-600"
-        >
-          Get started
-          <ArrowLongRightIcon className="size-5" />
-        </Link>
-      </div>
-    </div>
-  )
-}
-
 export function MeetOurTeam() {
+  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null)
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const { scrollX } = useScroll({ container: scrollRef })
   const [setReferenceWindowRef, bounds] = useMeasure()
   const [activeIndex, setActiveIndex] = useState(0)
+
+  const handleMemberClick = (member: TeamMember) => {
+    setSelectedMember(member)
+  }
 
   useMotionValueEvent(scrollX, 'change', (x) => {
     setActiveIndex(Math.floor(x / scrollRef.current!.children[0].clientWidth))
@@ -150,7 +149,7 @@ export function MeetOurTeam() {
   }
 
   return (
-    <div className="overflow-hidden py-32">
+    <div className="relative mt-64">
       <Container>
         <div ref={setReferenceWindowRef}>
           <Heading as="h2" className="mt-2 text-white text-5xl ">
@@ -165,26 +164,38 @@ export function MeetOurTeam() {
           '[scrollbar-width:none] [&::-webkit-scrollbar]:hidden',
           'snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth',
           '[--scroll-padding:max(--spacing(6),calc((100vw-(var(--container-2xl)))/2))] lg:[--scroll-padding:max(--spacing(8),calc((100vw-(var(--container-7xl)))/2))]',
+          'before:fixed before:left-0 before:z-10 before:h-full before:w-32 before:bg-gradient-to-r before:from-black before:to-transparent before:pointer-events-none',
+          'after:fixed after:right-0 after:z-10 after:h-full after:w-32 after:bg-gradient-to-l after:from-black after:to-transparent after:pointer-events-none',
+          'relative',
         ])}
       >
-        {teamMembers.map(({ img, name, role }, testimonialIndex) => (
+        {teamMembers.map((member, testimonialIndex) => (
           <TeamMemberCard
             key={testimonialIndex}
-            name={name}
-            role={role}
-            img={img}
+            name={member.name}
+            role={member.role}
+            img={member.img}
             bounds={bounds}
             scrollX={scrollX}
-            onClick={() => scrollTo(testimonialIndex)}
+            onClick={() => handleMemberClick(member)}
           >
-            <div>Some content for the children prop</div>
+            <div></div>
           </TeamMemberCard>
         ))}
         <div className="w-[42rem] shrink-0 sm:w-[54rem]" />
       </div>
+      {selectedMember && (
+        <TeamMemberDetail
+          name={selectedMember.name}
+          picture={selectedMember.picture}
+          bio={selectedMember.bio}
+          role={selectedMember.role}
+          onClose={() => setSelectedMember(null)}
+        />
+      )}
       <Container className="mt-16">
         <div className="flex justify-between">
-          <CallToAction />
+          <div />
           <div className="hidden sm:flex sm:gap-2">
             {teamMembers.map(({ name }, testimonialIndex) => (
               <Headless.Button
@@ -202,6 +213,7 @@ export function MeetOurTeam() {
               />
             ))}
           </div>
+          <div />
         </div>
       </Container>
     </div>

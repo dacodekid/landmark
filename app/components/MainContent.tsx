@@ -61,6 +61,10 @@ export default function MainContent() {
             </Disclosure>
           ))}
         </dl>
+      </div>
+      <div className="relative">
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black via-black/50 to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black via-black/50 to-transparent z-10 pointer-events-none" />
         <MeetOurTeam />
       </div>
     </div>
